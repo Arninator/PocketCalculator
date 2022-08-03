@@ -86,7 +86,7 @@ class PocketCalculator extends React.Component {
                         <div className="col-lg-2"><Button id="decimal" className="btn btn-block btn-default" value="." function="number" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="minus" className="btn btn-block btn-default" value="(-)" function="number" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="ans" className="btn btn-block btn-warning" value="Ans" function="function" onClick={this.handleClick}/></div>
-                        <div id="equals-grid" className="col-lg-4"><Button id="equals" className="btn btn-block btn-primary" value="=" function="function" onClick={this.handleClick}/></div>
+                        <div className="col-lg-4"><Button id="equals" className="btn btn-block btn-primary" value="=" function="function" onClick={this.handleClick}/></div>
                     </div>
                 </div>
             </div>
