@@ -2,9 +2,16 @@
     padding: 0;
     margin: 0;
 }
+body {
+    padding: 1vh 25vw;
+    background-color: darkslategrey;
+}
 #contaier {
     height: 100vh;
     max-height: 100vh;
+}
+.well-lg {
+    background-color: rgba(220, 220, 220, 0.5);
 }
 #calculation-display {
     height: 3vh;
@@ -17,14 +24,17 @@
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
+.btn-default {
+    font-weight: 600;
+}
 .btn-primary {
-    width: 95%;
-    max-width: 95%;
+    width: 14vw;
+    max-width: 14vw;
     position: absolute;
     top: -8.5vh;
     height: 15.3vh;
 }
-#display-div {
+#display {
     text-align: right;
     background-color: gainsboro;
     padding: 0 1vw;
