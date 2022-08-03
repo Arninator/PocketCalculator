@@ -18,8 +18,20 @@
     margin-bottom: 1vh;
 }
 .btn-primary {
-    width: 63.5vh;
+    width: 95%;
+    max-width: 95%;
     position: absolute;
     top: -8.5vh;
     height: 15.3vh;
+}
+#display-div {
+    text-align: right;
+    background-color: gainsboro;
+    padding: 0 1vw;
+}
+#calculation-display {
+    font-size: 3rem;
+}
+#result-display {
+    font-size: 6rem;
 }

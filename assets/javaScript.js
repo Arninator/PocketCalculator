@@ -6,20 +6,26 @@ class PocketCalculator extends React.Component {
         super(props);
         this.state = {
             id:"",
-            function: ""
+            function: "",
+            value: ""
         }
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick (e) {
+        const calcDisplay = document.getElementById("calculation-display");
+        const resultDisplay = document.getElementById("result-display");
 
+        calcDisplay.innerHTML += e.target.value;
+        calcDisplay.innerHTML += " ";
+        resultDisplay.innerText= e.target.value;
     }
-    render () {
+    render () {1
         return (
             <div id="container" className="well well-lg">
                 {/* DISPLAY */}
                 <div id="display-container" className="well well-sm">
                     <div className="row">
-                        <div className="col-lg-12"><Display /></div>
+                        <div className="col-lg-12"><Display value="" /></div>
                     </div>{/* <Display /> */}
                 </div>
                 {/* OPERATORS */}
@@ -108,12 +114,8 @@ const Button = (props) => {
 const Display = (props) => {
     return(
         <div id="display-div">
-            <div id="calculation-display">
-                +-*/
-            </div>
-            <div id="result-display">
-                00
-            </div>
+            <div id="calculation-display">{props.value}</div>
+            <div id="result-display">{props.value}</div>
         </div>
     )
 }
