@@ -1,5 +1,6 @@
 const ans = 0;
 let elements = [];
+let deciCheck = false;
 
 class calcPart {
     constructor (typeString, value) {
@@ -22,6 +23,7 @@ class PocketCalculator extends React.Component {
         // console.log(document.getElementById((e.target.id)).classList.contains("function"));
 
         if (operation.contains("function")) {                                                       //---FUNCTION ?
+            deciCheck = false;
             if (operation.contains("equals")) {                                                     //---EQUALS
                 //::::::::::::::::::::::::::::::::::::::::: OUTPUT 0 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 for (let i = 0; i < elements.length; i++) {
@@ -158,39 +160,77 @@ class PocketCalculator extends React.Component {
         } else {
 
             // console.log(elements.length)
-            
             if (elements.length > 0) {
                 if (elements[elements.length - 1].type == "number") {
 
-                    calcDisplay.innerText += e.target.value;
-                    resultDisplay.innerText += e.target.value;
+                    if (e.target.value != ".") {
+                        if (e.target.id == "zero" && elements[elements.length - 1].value == "0") {
+                            calcDisplay.innerText = "ERROR! - Don't start with multiple Zeros";
+                            resultDisplay.innerText = "-,-"
+                            elements = [];
+                            return;
+                        }
+                        
+                        calcDisplay.innerText += e.target.value;
+                        resultDisplay.innerText += e.target.value;
 
-                    elements[elements.length - 1].value += e.target.value;
-                    // console.log(elements[elements.length - 1].value);
+                        elements[elements.length - 1].value += e.target.value;
+                        // console.log(elements[elements.length - 1].value);
+                        
+                    } else if (e.target.value == "." && !deciCheck) {
+                        deciCheck = true;
+
+                        calcDisplay.innerText += e.target.value;
+                        resultDisplay.innerText += e.target.value;
+
+                        elements[elements.length - 1].value += e.target.value;
+                        // console.log(elements[elements.length - 1].value);
+                    } else {
+                        calcDisplay.innerText = 'ERROR! - Only one "."';
+                        resultDisplay.innerText = "-,-"
+                        elements = [];
+                        return;
+                    }                    
                 } else {
+                    if (e.target.value == ".") {
+                        calcDisplay.innerText += " 0.";
+                        resultDisplay.innerText = "0.";
+    
+                        elements.push({
+                            type: "number",
+                            value: "0."
+                        });
+                    } else {
+                        calcDisplay.innerText += " " + e.target.value;
+                        resultDisplay.innerText = e.target.value;
 
-                    calcDisplay.innerText += " " + e.target.value;
+                        elements.push({
+                            type: "number",
+                            value: e.target.value
+                        });
+                    }
+                }
+            } else {
+                if (e.target.value == ".") {
+                    calcDisplay.innerText = "0.";
+                    resultDisplay.innerText = "0.";
+
+                    elements.push({
+                        type: "number",
+                        value: "0."
+                    });
+                } else {
+                    calcDisplay.innerText = e.target.value;
                     resultDisplay.innerText = e.target.value;
 
                     elements.push({
                         type: "number",
                         value: e.target.value
                     });
-                }
-            } else {
-                if (e.target.value == 0) {
-                    calcDisplay.innerText = "ERROR! - Don't start a Number with Zero!";
-                    return;
-                }
-
-                calcDisplay.innerText = e.target.value;
-                resultDisplay.innerText = e.target.value;
-
-                elements.push({
-                    type: "number",
-                    value: e.target.value
-                });
                 // console.log(elements[elements.length - 1].value);
+                }
+
+                
             }
         }
         // for (let i = 0; i < elements.length; i++) {
