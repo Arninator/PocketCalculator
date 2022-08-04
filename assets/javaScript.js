@@ -1,5 +1,5 @@
 const ans = 0;
-const elements = [];
+let elements = [];
 
 class calcPart {
     constructor (typeString, value) {
@@ -22,8 +22,70 @@ class PocketCalculator extends React.Component {
         // console.log(document.getElementById((e.target.id)).classList.contains("function"));
 
         if (operation.contains("function")) {                                                       //---FUNCTION ?
-            if (!operation.contains("operation")) {                                                 //---MATH ?
-                console.log("// TO_DO !!")
+            if (operation.contains("equals")) {                                                     //---EQUALS
+                
+                
+
+                for (let i = 0; i < elements.length - 2; i++) {                                     //---CONSECUTIVE OPERATORS ?
+                    if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value != "minus") {
+                        
+                        var newElements = elements.filter(function (value, index, arr) {
+                            return index != i;
+                            })
+                        elements = [...newElements];
+                        i--;
+
+                        // for (let i = 0; i < newElements.length; i++) {
+                        //     console.log("newElements[" + i + "]: " + "{\ntype: " + newElements[i].type + ",\nvalue: " + newElements[i].value + "\n}");
+                        // }
+                    } else if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value == "minus") {
+                        if (elements[i + 2].type == "number") {
+                            elements[i + 2].type *= -1;
+
+                            var newElements = elements.filter(function (value, index, arr) {
+                                return index != i + 1;
+                                })
+                            elements = [...newElements];
+                            i--;
+                        } else {
+                            var newElements = elements.filter(function (value, index, arr) {
+                                return index != i;
+                                })
+                            elements = [...newElements];
+                            i--;
+                        }
+                    }
+                }
+
+                if (elements.length < 1) {
+                    resultDisplay.innerText = "ERROR! - No Input!";
+                    return;
+                } else if (elements.length == 1 && elements[0].type == "operation") {
+                    resultDisplay.innerText = "ERROR! - Can't calculate without Numbers!";
+                    return;
+                } else if (elements.length == 1 && elements[0].type == "number") {
+                    resultDisplay.innerText = elements[0].value;
+                    return;
+                } else if (elements[elements.length - 1].type = "operation") {
+                    resultDisplay.innerText = "ERROR - Number in the end required!";
+                    return;
+                } else if (elements[0].type == "operation" && elements[0].value != "minus" ) {
+                    resultDisplay.innerText = "ERROR! - Please start with Numbers or a (-)!";
+                    return;
+                } else {
+                    elements[1].value *= -1;
+                    elements.shift();
+                }
+
+                for (let i = 1; i < elements.length - 1; i++) {                                     //---MULTIPLY/DIVIDE BEFORE OTHERS !
+                    if (elements[i].type = "operation" && (elements[i].value == "multiply" || elements[i].value == "divide")) {
+                        if (elements[i].value == "multiply") {
+                            elements[]
+                        }
+                    }
+                }
+                
+            } else if (!operation.contains("operation")) {                                          //---MATH ?    
                 // switch (e.target.id) {
 
                 //     case "abs":
@@ -37,13 +99,6 @@ class PocketCalculator extends React.Component {
                 //         break;
 
                 // }
-            } else if (operation.contains("equals")) {                                              //---EQUALS
-
-                for (let i = 0; i < elements.length - 1; i++) {                                     //---CONSECUTIVE OPERATORS ?
-                    if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value != "minus") {
-                        elements[i].
-                    }
-                }
             } else {                                                                                //---PLUS/MINUS/MAL/GETEILT ?
                 calcDisplay.innerHTML += " " + e.target.value;
 
