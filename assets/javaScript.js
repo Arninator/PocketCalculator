@@ -149,7 +149,12 @@ class PocketCalculator extends React.Component {
                 resultDisplay.innerText = "0";
 
                 elements = [];
-            } else {                                                                                //---PLUS/MINUS/MAL/GETEILT ?
+            } else if (operation.contains("math")) {
+                calcDisplay.innerText = "ERROR! - Not initialized yet!";
+                resultDisplay.innerText = "-,-"
+                elements = [];
+                return;
+            }else {                                                                                //---PLUS/MINUS/MAL/GETEILT ?
                 calcDisplay.innerHTML += " " + e.target.value;
 
                 elements.push({
@@ -170,7 +175,7 @@ class PocketCalculator extends React.Component {
                             elements = [];
                             return;
                         }
-                        
+
                         calcDisplay.innerText += e.target.value;
                         resultDisplay.innerText += e.target.value;
 
@@ -247,48 +252,48 @@ class PocketCalculator extends React.Component {
                     </div>{/* <Display /> */}
                 </div>
                 {/* OPERATORS */}
-                {/*<div className="well well-sm">
+                <div className="well well-sm">
                     <div className="row">
-                        <div className="col-lg-2"><Button id="abs" className="btn btn-block btn-info function" value="| x |" onClick={this.handleClick} /></div>
-                        <div className="col-lg-2"><Button id="pow2" className="btn btn-block btn-info function" value="x &sup2;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="pow3" className="btn btn-block btn-info function" value="x &sup3;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="fac" className="btn btn-block btn-info function" value="x !" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="rezi" className="btn btn-block btn-info function" value="x &oline; &sup1;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="log-ab" className="btn btn-block btn-info function" value="log a (b)" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="abs" className="btn btn-block btn-info function math" value="| x |" onClick={this.handleClick} /></div>
+                        <div className="col-lg-2"><Button id="pow2" className="btn btn-block btn-info function math" value="x &sup2;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="pow3" className="btn btn-block btn-info function math" value="x &sup3;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="fac" className="btn btn-block btn-info function math" value="x !" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="rezi" className="btn btn-block btn-info function math" value="x &oline; &sup1;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="log-ab" className="btn btn-block btn-info function math" value="log a (b)" onClick={this.handleClick}/></div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-2"><Button id="frac" className="btn btn-block btn-info function" value="&frac34;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="sqrt" className="btn btn-block btn-info function" value="&radic; x" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="cubic-root" className="btn btn-block btn-info function" value="&sup3;&radic; x" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="pow-x" className="btn btn-block btn-info function" value="x ^ y" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="log10" className="btn btn-block btn-info function" value="log 10 (x)" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="ln" className="btn btn-block btn-info function" value="ln" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="frac" className="btn btn-block btn-info function math" value="&frac34;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="sqrt" className="btn btn-block btn-info function math" value="&radic; x" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="cubic-root" className="btn btn-block btn-info function math" value="&sup3;&radic; x" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="pow-x" className="btn btn-block btn-info function math" value="x ^ y" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="log10" className="btn btn-block btn-info function math" value="log 10 (x)" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="ln" className="btn btn-block btn-info function math" value="ln" onClick={this.handleClick}/></div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-2"><Button id="pi" className="btn btn-block btn-info function" value="&pi;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="euler" className="btn btn-block btn-info function" value="e" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="e-pow-x" className="btn btn-block btn-info function" value="e &ordf;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="sin" className="btn btn-block btn-info function" value="sin" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="cos" className="btn btn-block btn-info function" value="cos" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="tan" className="btn btn-block btn-info function" value="tan" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="pi" className="btn btn-block btn-info function math" value="&pi;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="euler" className="btn btn-block btn-info function math" value="e" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="e-pow-x" className="btn btn-block btn-info function math" value="e &ordf;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="sin" className="btn btn-block btn-info function math" value="sin" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="cos" className="btn btn-block btn-info function math" value="cos" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="tan" className="btn btn-block btn-info function math" value="tan" onClick={this.handleClick}/></div>
                     </div>
                     <div className="row">
-                        <div className="col-lg-2"><Button id="left-parenthesis" className="btn btn-block btn-info function" value="(" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="right-parenthesis" className="btn btn-block btn-info function" value=")" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="clear-memory" className="btn btn-block btn-info function" value="M clear" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="add-memory" className="btn btn-block btn-info function" value="M +" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="subtract-memory" className="btn btn-block btn-info function" value="M -" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="memory" className="btn btn-block btn-info function" value="M" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="left-parenthesis" className="btn btn-block btn-info function math" value="(" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="right-parenthesis" className="btn btn-block btn-info function math" value=")" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="clear-memory" className="btn btn-block btn-info function math" value="M clear" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="add-memory" className="btn btn-block btn-info function math" value="M +" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="subtract-memory" className="btn btn-block btn-info function math" value="M -" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="memory" className="btn btn-block btn-info function math" value="M" onClick={this.handleClick}/></div>
                     </div>
-                </div> */}
+                </div>
                 {/* NUMBER KEYS */}
                 <div className="well well-sm">
                     <div className="row">
                         <div className="col-lg-2"><Button id="seven" className="btn btn-block btn-default" value="7" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="eight" className="btn btn-block btn-default" value="8" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="nine" className="btn btn-block btn-default" value="9" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="del" className="btn btn-block btn-danger function" value="&larr;" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="c" className="btn btn-block btn-danger function" value="C" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="del" className="btn btn-block btn-danger function math" value="&larr;" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="c" className="btn btn-block btn-danger function math" value="C" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="clear" className="btn btn-block btn-danger function clear" value="AC" onClick={this.handleClick}/></div>
                     </div>
                     <div className="row">
@@ -309,7 +314,7 @@ class PocketCalculator extends React.Component {
                         <div className="col-lg-2"><Button id="zero" className="btn btn-block btn-default" value="0" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="decimal" className="btn btn-block btn-default" value="." onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="minus" className="btn btn-block btn-default function" value="(-)" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="ans" className="btn btn-block btn-warning function" value="Ans" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="ans" className="btn btn-block btn-warning function math" value="Ans" onClick={this.handleClick}/></div>
                         <div className="col-lg-4"><Button id="equals" className="btn btn-block btn-primary function equals" value="=" onClick={this.handleClick}/></div>
                     </div>
                 </div>
