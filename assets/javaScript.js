@@ -23,7 +23,11 @@ class PocketCalculator extends React.Component {
 
         if (operation.contains("function")) {                                                       //---FUNCTION ?
             if (operation.contains("equals")) {                                                     //---EQUALS
-                
+                //::::::::::::::::::::::::::::::::::::::::: OUTPUT 0 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                for (let i = 0; i < elements.length; i++) {
+                    console.log("0: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
+                }
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 for (let i = 0; i < elements.length - 2; i++) {                                     //---CONSECUTIVE OPERATORS ?
                     if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value != "subtract") {
                         
@@ -54,41 +58,50 @@ class PocketCalculator extends React.Component {
                         }
                     }
                 }
-                // //::::::::::::::::::::::::::::::::::::::::: OUTPUT 1 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-                // for (let i = 0; i < elements.length; i++) {
-                //     console.log("1: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
-                // }
-                // //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                //::::::::::::::::::::::::::::::::::::::::: OUTPUT 1 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                for (let i = 0; i < elements.length; i++) {
+                    console.log("1: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
+                }
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 if (elements.length < 1) {
-                    resultDisplay.innerText = "ERROR! - No Input!";
+                    calcDisplay.innerText = "ERROR! - No Input!";
+                    resultDisplay.innerText = "-,-"
+                    elements = [];
                     return;
                 } else if (elements.length == 1 && elements[0].type == "operation") {
-                    resultDisplay.innerText = "ERROR! - Can't calculate without Numbers!";
+                    calcDisplay.innerText = "ERROR! - Can't calculate without Numbers!";
+                    resultDisplay.innerText = "-,-"
+                    elements = [];
                     return;
                 } else if (elements.length == 1 && elements[0].type == "number") {
                     resultDisplay.innerText = elements[0].value;
+                    elements = [];
                     return;
                 } else if (elements[elements.length - 1].type == "operation") {
-                    resultDisplay.innerText = "ERROR - Number in the end required!";
+                    calcDisplay.innerText = "ERROR - Number in the end required!";
+                    resultDisplay.innerText = "-,-"
+                    elements = [];
                     return;
                 } else if (elements[0].type == "operation" && elements[0].value != "subtract" ) {
-                    resultDisplay.innerText = "ERROR! - Please start with Numbers or a (-)!";
+                    calcDisplay.innerText = "ERROR! - Please start with Numbers or a (-)!";
+                    resultDisplay.innerText = "-,-"
+                    elements = [];
                     return;
                 } else if (elements[0].value == "subtract" ){
                     elements[1].value *= -1;
                     elements.shift();
+                } 
+                //::::::::::::::::::::::::::::::::::::::::: OUTPUT 2 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                for (let i = 0; i < elements.length; i++) {
+                    console.log("2: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
                 }
-                // //::::::::::::::::::::::::::::::::::::::::: OUTPUT 2 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-                // for (let i = 0; i < elements.length; i++) {
-                //     console.log("2: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
-                // }
-                // //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
                 for (let i = 1; i < elements.length - 1; i++) {                                     //---MULTIPLY/DIVIDE BEFORE OTHERS !
                     if (elements[i].type == "operation" && (elements[i].value == "multiply" || elements[i].value == "divide")) {
                         if (elements[i].value == "multiply") {
 
-                            elements[i + 1].value *= elements[i - 1].value;
+                            elements[i + 1].value = elements[i + 1].value * elements[i - 1].value;
                             elements.shift();
                             elements.shift();
                             i--;
@@ -113,7 +126,7 @@ class PocketCalculator extends React.Component {
                 for (let i = 1; i < elements.length - 1; i++) {                                     //---ADD AND SUBTRACT !
                     if (elements[i].value == "add") {
 
-                        elements[i + 1].value += elements[i - 1].value;
+                        elements[i + 1].value = parseFloat(elements[i + 1].value) + parseFloat(elements[i - 1].value);
                         elements.shift();
                         elements.shift();
                         i--;
@@ -127,22 +140,13 @@ class PocketCalculator extends React.Component {
                 }
 
                 resultDisplay.innerText = elements[0].value;
-                return;
+                elements =[];
 
-            } else if (!operation.contains("operation")) {                                          //---MATH ?    
-                // switch (e.target.id) {
+            } else if (operation.contains("clear")) {                                          //---MATH ?    
+                calcDisplay.innerText = "";
+                resultDisplay.innerText = "0";
 
-                //     case "abs":
-                //         calcDisplay.innerText += " abs( ";
-                //         break;
-                //     case "pow2":
-                //         calcDisplay.innerText += '^ 2';
-                //         break;
-                //     case "pow3":
-                //         calcDisplay.innerText += '^ 3';
-                //         break;
-
-                // }
+                elements = [];
             } else {                                                                                //---PLUS/MINUS/MAL/GETEILT ?
                 calcDisplay.innerHTML += " " + e.target.value;
 
@@ -154,7 +158,7 @@ class PocketCalculator extends React.Component {
         } else {
 
             // console.log(elements.length)
-
+            
             if (elements.length > 0) {
                 if (elements[elements.length - 1].type == "number") {
 
@@ -174,6 +178,11 @@ class PocketCalculator extends React.Component {
                     });
                 }
             } else {
+                if (e.target.value == 0) {
+                    calcDisplay.innerText = "ERROR! - Don't start a Number with Zero!";
+                    return;
+                }
+
                 calcDisplay.innerText = e.target.value;
                 resultDisplay.innerText = e.target.value;
 
@@ -198,7 +207,7 @@ class PocketCalculator extends React.Component {
                     </div>{/* <Display /> */}
                 </div>
                 {/* OPERATORS */}
-                <div className="well well-sm">
+                {/*<div className="well well-sm">
                     <div className="row">
                         <div className="col-lg-2"><Button id="abs" className="btn btn-block btn-info function" value="| x |" onClick={this.handleClick} /></div>
                         <div className="col-lg-2"><Button id="pow2" className="btn btn-block btn-info function" value="x &sup2;" onClick={this.handleClick}/></div>
@@ -231,7 +240,7 @@ class PocketCalculator extends React.Component {
                         <div className="col-lg-2"><Button id="subtract-memory" className="btn btn-block btn-info function" value="M -" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="memory" className="btn btn-block btn-info function" value="M" onClick={this.handleClick}/></div>
                     </div>
-                </div>
+                </div> */}
                 {/* NUMBER KEYS */}
                 <div className="well well-sm">
                     <div className="row">
@@ -240,7 +249,7 @@ class PocketCalculator extends React.Component {
                         <div className="col-lg-2"><Button id="nine" className="btn btn-block btn-default" value="9" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="del" className="btn btn-block btn-danger function" value="&larr;" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="c" className="btn btn-block btn-danger function" value="C" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="clear" className="btn btn-block btn-danger function" value="AC" onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="clear" className="btn btn-block btn-danger function clear" value="AC" onClick={this.handleClick}/></div>
                     </div>
                     <div className="row">
                         <div className="col-lg-2"><Button id="four" className="btn btn-block btn-default" value="4" onClick={this.handleClick}/></div>
@@ -258,7 +267,7 @@ class PocketCalculator extends React.Component {
                     </div>
                     <div className="row">
                         <div className="col-lg-2"><Button id="zero" className="btn btn-block btn-default" value="0" onClick={this.handleClick}/></div>
-                        <div className="col-lg-2"><Button id="decimal" className="btn btn-block btn-default function" value="." onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="decimal" className="btn btn-block btn-default" value="." onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="minus" className="btn btn-block btn-default function" value="(-)" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="ans" className="btn btn-block btn-warning function" value="Ans" onClick={this.handleClick}/></div>
                         <div className="col-lg-4"><Button id="equals" className="btn btn-block btn-primary function equals" value="=" onClick={this.handleClick}/></div>
