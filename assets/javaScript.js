@@ -1,39 +1,28 @@
 const ans = 0;
-const operators = [{
-    number: true,
-    value: 0,
-    insideElement: null
-}];
+const elements = [];
 
+class calcPart {
+    constructor (typeString, value) {
+        this.type = typeString;
+        this.value = value;
+    }
+}
 class PocketCalculator extends React.Component {
     
     constructor (props) {
         super(props);
 
         this.handleClick = this.handleClick.bind(this);
-        this.handleFunc = this.handleFunc.bind(this);
-
-    }
-    handleFunc = () => {
-        this.setState({
-            func: "func"
-        });
     }
     handleClick (e) {
         const calcDisplay = document.getElementById("calculation-display");
         const resultDisplay = document.getElementById("result-display");
         const operation = document.getElementById(e.target.id).classList;
-        const lastChar = "";
-        const lastElement = {
-            number: true,
-            value: NaN,
-            insideElement: null
-        }
 
         // console.log(document.getElementById((e.target.id)).classList.contains("function"));
 
-        if (operation.contains("function")) {                                                   //---FUNCTION ?
-            if (!operation.contains("operation")) {                                             //---PLUS/MINUS/MAL/GETEILT ?
+        if (operation.contains("function")) {                                                       //---FUNCTION ?
+            if (!operation.contains("operation")) {                                                 //---MATH ?
                 console.log("// TO_DO !!")
                 // switch (e.target.id) {
 
@@ -48,20 +37,57 @@ class PocketCalculator extends React.Component {
                 //         break;
 
                 // }
-                
-            } else {
-                calcDisplay.innerHTML += " " + e.target.value + " ";
+            } else if (operation.contains("equals")) {                                              //---EQUALS
+
+                for (let i = 0; i < elements.length - 1; i++) {                                     //---CONSECUTIVE OPERATORS ?
+                    if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value != "minus") {
+                        elements[i].
+                    }
+                }
+            } else {                                                                                //---PLUS/MINUS/MAL/GETEILT ?
+                calcDisplay.innerHTML += " " + e.target.value;
+
+                elements.push({
+                    type: "operation",
+                    value: e.target.id
+                });
             }
         } else {
-            console.log();
-            if (lastElement.value == NaN) {
 
+            console.log(elements.length)
+
+            if (elements.length > 0) {
+                if (elements[elements.length - 1].type == "number") {
+
+                    calcDisplay.innerText += e.target.value;
+                    resultDisplay.innerText += e.target.value;
+
+                    elements[elements.length - 1].value += e.target.value;
+                    // console.log(elements[elements.length - 1].value);
+                } else {
+
+                    calcDisplay.innerText += " " + e.target.value;
+                    resultDisplay.innerText = e.target.value;
+
+                    elements.push({
+                        type: "number",
+                        value: e.target.value
+                    });
+                }
+            } else {
+                calcDisplay.innerText = e.target.value;
+                resultDisplay.innerText = e.target.value;
+
+                elements.push({
+                    type: "number",
+                    value: e.target.value
+                });
+                // console.log(elements[elements.length - 1].value);
             }
-            calcDisplay.innerText += e.target.value;
-            resultDisplay.innerText += e.target.value;
-            lastChar = e.target.value;
-            lastElement.value += e.target.value;
         }
+        // for (let i = 0; i < elements.length; i++) {
+        //     console.log("elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
+        // }
     }
     render () {1
         return (
@@ -136,7 +162,7 @@ class PocketCalculator extends React.Component {
                         <div className="col-lg-2"><Button id="decimal" className="btn btn-block btn-default function" value="." onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="minus" className="btn btn-block btn-default function" value="(-)" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="ans" className="btn btn-block btn-warning function" value="Ans" onClick={this.handleClick}/></div>
-                        <div className="col-lg-4"><Button id="equals" className="btn btn-block btn-primary function" value="=" onClick={this.handleClick}/></div>
+                        <div className="col-lg-4"><Button id="equals" className="btn btn-block btn-primary function equals" value="=" onClick={this.handleClick}/></div>
                     </div>
                 </div>
             </div>
