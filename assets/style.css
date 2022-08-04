@@ -3,12 +3,12 @@
     margin: 0;
 }
 body {
-    padding: 1vh 28vw;
-    background-color: darkslategrey;
+    padding: 4vh 28vw 1vh 28vw;
+    background-color: rgb(33, 33, 33);
 }
 #contaier {
     height: 100vh;
-    max-height: 95vh;
+    max-height: 100vh;
 }
 .well-lg {
     background-color: rgba(220, 220, 220, 0.5);
@@ -21,17 +21,17 @@ body {
 }
 .btn {
     height: 6.7vh;
-    margin: 1vh 0vw;
+    margin: 0.5vh 0vw;
 }
 .btn-default {
     font-weight: 600;
 }
 .btn-primary {
-    width: 12.5vw;
-    max-width: 12.5vw;
+    width: 12.4vw;
+    max-width: 12.4vw;
     position: absolute;
-    top: -8.5vh;
-    height: 15.3vh;
+    top: -7.8vh;
+    height: 14.7vh;
 }
 #display {
     text-align: right;
