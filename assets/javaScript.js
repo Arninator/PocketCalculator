@@ -80,10 +80,49 @@ class PocketCalculator extends React.Component {
                 for (let i = 1; i < elements.length - 1; i++) {                                     //---MULTIPLY/DIVIDE BEFORE OTHERS !
                     if (elements[i].type = "operation" && (elements[i].value == "multiply" || elements[i].value == "divide")) {
                         if (elements[i].value == "multiply") {
-                            elements[]
+                            elements[i + 1].value *= elements[i - 1].value;
+
+                            var newElements = elements.filter(function (value, index, arr) {
+                                return index != i || i - 1;
+                                })
+                            elements = [...newElements];
+                            i = i - 2;
+                        } else if (elements[i + 1].value != 0) {
+                            elements[i + 1].value = elements[i - 1].value / elements[i + 1].value;
+
+                            var newElements = elements.filter(function (value, index, arr) {
+                                return index != i || i - 1;
+                                })
+                            elements = [...newElements];
+                            i = i - 2;
+                        } else {
+                            resultDisplay.innerText = "ERROR! - Divide by 0!";
+                            return;
                         }
                     }
                 }
+                for (let i = 1; i < elements.length - 1; i++) {                                     //---ADD AND SUBTRACT !
+                    if (elements[i].value == "add") {
+                        elements[i + 1].value += elements[i - 1].value;
+
+                        var newElements = elements.filter(function (value, index, arr) {
+                            return index != i || i - 1;
+                            })
+                        elements = [...newElements];
+                        i = i - 2;
+                    } else {
+                        elements[i + 1].value -= elements[i - 1].value;
+
+                        var newElements = elements.filter(function (value, index, arr) {
+                            return index != i || i - 1;
+                            })
+                        elements = [...newElements];
+                        i = i - 2;
+                    }
+                }
+
+                resultDisplay.innerText = elements[0].value;
+                return;
                 
             } else if (!operation.contains("operation")) {                                          //---MATH ?    
                 // switch (e.target.id) {
