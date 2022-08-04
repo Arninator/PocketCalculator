@@ -24,10 +24,8 @@ class PocketCalculator extends React.Component {
         if (operation.contains("function")) {                                                       //---FUNCTION ?
             if (operation.contains("equals")) {                                                     //---EQUALS
                 
-                
-
                 for (let i = 0; i < elements.length - 2; i++) {                                     //---CONSECUTIVE OPERATORS ?
-                    if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value != "minus") {
+                    if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value != "subtract") {
                         
                         var newElements = elements.filter(function (value, index, arr) {
                             return index != i;
@@ -38,9 +36,9 @@ class PocketCalculator extends React.Component {
                         // for (let i = 0; i < newElements.length; i++) {
                         //     console.log("newElements[" + i + "]: " + "{\ntype: " + newElements[i].type + ",\nvalue: " + newElements[i].value + "\n}");
                         // }
-                    } else if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value == "minus") {
+                    } else if (elements[i].type == "operation" && elements[i + 1].type == "operation" && elements[i + 1].value == "subtract") {
                         if (elements[i + 2].type == "number") {
-                            elements[i + 2].type *= -1;
+                            elements[i + 2].value *= -1;
 
                             var newElements = elements.filter(function (value, index, arr) {
                                 return index != i + 1;
@@ -56,7 +54,11 @@ class PocketCalculator extends React.Component {
                         }
                     }
                 }
-
+                // //::::::::::::::::::::::::::::::::::::::::: OUTPUT 1 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                // for (let i = 0; i < elements.length; i++) {
+                //     console.log("1: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
+                // }
+                // //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 if (elements.length < 1) {
                     resultDisplay.innerText = "ERROR! - No Input!";
                     return;
@@ -66,64 +68,67 @@ class PocketCalculator extends React.Component {
                 } else if (elements.length == 1 && elements[0].type == "number") {
                     resultDisplay.innerText = elements[0].value;
                     return;
-                } else if (elements[elements.length - 1].type = "operation") {
+                } else if (elements[elements.length - 1].type == "operation") {
                     resultDisplay.innerText = "ERROR - Number in the end required!";
                     return;
-                } else if (elements[0].type == "operation" && elements[0].value != "minus" ) {
+                } else if (elements[0].type == "operation" && elements[0].value != "subtract" ) {
                     resultDisplay.innerText = "ERROR! - Please start with Numbers or a (-)!";
                     return;
-                } else {
+                } else if (elements[0].value == "subtract" ){
                     elements[1].value *= -1;
                     elements.shift();
                 }
+                // //::::::::::::::::::::::::::::::::::::::::: OUTPUT 2 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                // for (let i = 0; i < elements.length; i++) {
+                //     console.log("2: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
+                // }
+                // //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
                 for (let i = 1; i < elements.length - 1; i++) {                                     //---MULTIPLY/DIVIDE BEFORE OTHERS !
-                    if (elements[i].type = "operation" && (elements[i].value == "multiply" || elements[i].value == "divide")) {
+                    if (elements[i].type == "operation" && (elements[i].value == "multiply" || elements[i].value == "divide")) {
                         if (elements[i].value == "multiply") {
+
                             elements[i + 1].value *= elements[i - 1].value;
+                            elements.shift();
+                            elements.shift();
+                            i--;
+                        } else if (elements[i].value == "divide" && elements[i + 1].value != 0) {
 
-                            var newElements = elements.filter(function (value, index, arr) {
-                                return index != i || i - 1;
-                                })
-                            elements = [...newElements];
-                            i = i - 2;
-                        } else if (elements[i + 1].value != 0) {
                             elements[i + 1].value = elements[i - 1].value / elements[i + 1].value;
-
-                            var newElements = elements.filter(function (value, index, arr) {
-                                return index != i || i - 1;
-                                })
-                            elements = [...newElements];
-                            i = i - 2;
+                            elements.shift();
+                            elements.shift();
+                            i--;
                         } else {
+
                             resultDisplay.innerText = "ERROR! - Divide by 0!";
                             return;
                         }
                     }
                 }
+                //::::::::::::::::::::::::::::::::::::::::: OUTPUT 3 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+                for (let i = 0; i < elements.length; i++) {
+                    console.log("3: elements[" + i + "]: " + "{\ntype: " + elements[i].type + ",\nvalue: " + elements[i].value + "\n}");
+                }
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
                 for (let i = 1; i < elements.length - 1; i++) {                                     //---ADD AND SUBTRACT !
                     if (elements[i].value == "add") {
+
                         elements[i + 1].value += elements[i - 1].value;
-
-                        var newElements = elements.filter(function (value, index, arr) {
-                            return index != i || i - 1;
-                            })
-                        elements = [...newElements];
-                        i = i - 2;
+                        elements.shift();
+                        elements.shift();
+                        i--;
                     } else {
-                        elements[i + 1].value -= elements[i - 1].value;
-
-                        var newElements = elements.filter(function (value, index, arr) {
-                            return index != i || i - 1;
-                            })
-                        elements = [...newElements];
-                        i = i - 2;
+                        
+                        elements[i + 1].value = elements[i - 1].value - elements[i + 1].value;
+                        elements.shift();
+                        elements.shift();
+                        i--;
                     }
                 }
 
                 resultDisplay.innerText = elements[0].value;
                 return;
-                
+
             } else if (!operation.contains("operation")) {                                          //---MATH ?    
                 // switch (e.target.id) {
 
@@ -148,7 +153,7 @@ class PocketCalculator extends React.Component {
             }
         } else {
 
-            console.log(elements.length)
+            // console.log(elements.length)
 
             if (elements.length > 0) {
                 if (elements[elements.length - 1].type == "number") {
@@ -195,7 +200,7 @@ class PocketCalculator extends React.Component {
                 {/* OPERATORS */}
                 <div className="well well-sm">
                     <div className="row">
-                        <div className="col-lg-2"><Button id="abs" className="btn btn-block btn-info function" value="| x |" onLoad={this.handleFunc} onClick={this.handleClick}/></div>
+                        <div className="col-lg-2"><Button id="abs" className="btn btn-block btn-info function" value="| x |" onClick={this.handleClick} /></div>
                         <div className="col-lg-2"><Button id="pow2" className="btn btn-block btn-info function" value="x &sup2;" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="pow3" className="btn btn-block btn-info function" value="x &sup3;" onClick={this.handleClick}/></div>
                         <div className="col-lg-2"><Button id="fac" className="btn btn-block btn-info function" value="x !" onClick={this.handleClick}/></div>
