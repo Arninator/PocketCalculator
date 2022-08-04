@@ -3,7 +3,7 @@
     margin: 0;
 }
 body {
-    padding: 1vh 20vw;
+    padding: 1vh 28vw;
     background-color: darkslategrey;
 }
 #contaier {
@@ -21,14 +21,14 @@ body {
 }
 .btn {
     height: 6.7vh;
-    margin: 1vh;
+    margin: 1vh 0vw;
 }
 .btn-default {
     font-weight: 600;
 }
 .btn-primary {
-    width: 14vw;
-    max-width: 14vw;
+    width: 12.5vw;
+    max-width: 12.5vw;
     position: absolute;
     top: -8.5vh;
     height: 15.3vh;
